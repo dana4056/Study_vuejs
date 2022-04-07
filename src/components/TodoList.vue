@@ -1,7 +1,7 @@
 <template>
   <div>
       <ul>
-        <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.item" class="shadow">
+        <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item" class="shadow">
           <i class="checkBtn fa-solid fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
           <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
           <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"><i class="fa-solid fa-trash-can"></i></span>
@@ -12,32 +12,13 @@
 
 <script>
 export default {
-  data: function(){
-    return {
-      todoItems:[]
-    }
-  },
+  props:['propsdata'],
   methods: {
     removeTodo: function(todoItem, index){
-      localStorage.removeItem(todoItem.item);
-      this.todoItems.splice(index, 1);  //JS배열 문법 지우고 새로운 배열 반환
+      this.$emit("removeItem",todoItem, index);
     }, 
-    toggleComplete: function(todoItem){
-      todoItem.completed = !todoItem.completed ;
-
-      // 로컬 스토리지 갱신: 로컬 스토리지 업데이트 API 없어서 삭제하고 다시 넣어줌
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-    }
-  },
-  created: function(){
-    if (localStorage.length > 0){ // 로컬 스토리지에 데이터가 존재한다면
-      for( var i = 0; i < localStorage.length; i++){
-        if(localStorage.key(i)!=='loglevel:webpack-dev-server'){
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));  //값이 객체임{comp: false, item:"todos"}
-          // this.todoItems.push(localStorage.key(i));  //키와 value가 같았을때 쓴 방법
-        }
-      }
+    toggleComplete: function(todoItem, index){
+      this.$emit("completeItem",todoItem, index);
     }
   }
 }

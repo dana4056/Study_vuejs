@@ -19,10 +19,7 @@ export default {
   methods: {
     addTodo: function(){
       if(this.newTodoItem !== ""){ // 입력값이 있을 때만!
-        var obj = {completed: false, item: this.newTodoItem}
-        // 저장하는 로직 실행(JS window객체의 localStorage사용)
-        // JSON.stringfy(객체): 객체를 str으로 변환
-        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));   //값 저장
+        this.$emit("addTodoItem",this.newTodoItem);
         this.clearInput();
       }
     },
