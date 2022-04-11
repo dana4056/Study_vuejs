@@ -8,18 +8,28 @@
     </span>
 
     <!------------------ 모달 컴포넌트 사용 ---------------------------->
-    <ModalModal :show="showModal" @close="showModal = false">
+    <Modal v-if="showModal" @close="showModal = false">
+      <!-- slot부분을 재정의할 수 있음 -->
       <template #header>
-        <h3>custom header</h3>
+        <h3>
+          경고!
+          <i class="fa-solid fa-circle-xmark closeModal" @click="showModal=false"></i> 
+        </h3>
       </template>
-    </ModalModal>
+
+      <template #body>
+        <span>할 일을 입력하세요.</span>
+      </template>
+
+
+    </Modal>
     <!----------------------------------------------------------------->
 
   </div>
 </template>
 
 <script>
-import ModalModal from './common/ModalModal.vue'
+import Modal from './common/ModalModal.vue'
 
 export default {
   data: function(){
@@ -34,16 +44,16 @@ export default {
         this.$emit("addTodoItem",this.newTodoItem);
         this.clearInput();
       }
-      // else{
-        
-      // }
+      else{
+        this.showModal=true; 
+      }
     },
     clearInput: function(){
       this.newTodoItem='';  // input 초기화
     }
   },
   components:{
-    'ModalModal': ModalModal
+    'Modal': Modal
   }
 }
 </script>
@@ -72,6 +82,9 @@ input:focus{
 .addBtn{
   color:white;
   vertical-align: middle;
+}
+.closeModal{
+  color: #42b983;
 }
 
 </style>

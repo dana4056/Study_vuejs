@@ -1,29 +1,26 @@
 <template>
-  <Transition name="modal">
-    <div v-if="show" class="modal-mask">
+  <transition name="modal">
+    <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
+
+          <!-- 모달 헤더 -->
           <div class="modal-header">
-            <slot name="header">default header</slot>
+            <slot name="header">
+              default header
+            </slot>
           </div>
 
+          <!-- 모달 바디 -->
           <div class="modal-body">
-            <slot name="body">default body</slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button
-                class="modal-default-button"
-                @click="$emit('close')"
-              >OK</button>
+            <slot name="body">
+              default body
             </slot>
           </div>
         </div>
       </div>
     </div>
-  </Transition>
+  </transition>
 </template>
 
 <script>
@@ -60,6 +57,7 @@ export default {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .modal-header h3 {
@@ -84,16 +82,16 @@ export default {
  * these styles.
  */
 
-.modal-enter-from {
+.modal-enter {
   opacity: 0;
 }
 
-.modal-leave-to {
+.modal-leave-active {
   opacity: 0;
 }
 
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
