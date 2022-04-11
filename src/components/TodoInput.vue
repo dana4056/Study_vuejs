@@ -32,14 +32,14 @@
 import Modal from './common/ModalModal.vue'
 
 export default {
-  data: function(){
+  data(){
     return {
       newTodoItem:"",
       showModal:false
     }
   }, 
   methods: {
-    addTodo: function(){
+    addTodo(){
       if(this.newTodoItem !== ""){ // 입력값이 있을 때만!
         this.$emit("addTodoItem",this.newTodoItem);
         this.clearInput();
@@ -48,14 +48,15 @@ export default {
         this.showModal=true; 
       }
     },
-    clearInput: function(){
+    clearInput(){
       this.newTodoItem='';  // input 초기화
     }
   },
   components:{
-    'Modal': Modal
+    Modal
   }
 }
+
 </script>
 
 <style scoped>
@@ -88,3 +89,6 @@ input:focus{
 }
 
 </style>
+
+
+
