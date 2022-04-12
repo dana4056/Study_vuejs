@@ -41,7 +41,8 @@ export default {
   methods: {
     addTodo(){
       if(this.newTodoItem !== ""){ // 입력값이 있을 때만!
-        this.$emit("addTodoItem",this.newTodoItem);
+        const text = this.newTodoItem.trim(); //트림은 앞뒤 공백 없애주는 기능
+        this.$store.commit('addOneItem', text);
         this.clearInput();
       }
       else{
