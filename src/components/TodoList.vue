@@ -1,24 +1,35 @@
 <template>
   <div>
     <transition-group name="list" tag="ul">
-        <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
-          <i class="checkBtn fa-solid fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
+        <li v-for="(todoItem, index) in this.storedTodoItmes" v-bind:key="todoItem.item" class="shadow">
+          <i class="checkBtn fa-solid fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete({todoItem, index})"></i>
           <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
-          <span class="removeBtn" v-on:click="removeTodo(todoItem, index)"><i class="fa-solid fa-trash-can"></i></span>
+          <span class="removeBtn" v-on:click="removeTodo({todoItem, index})"><i class="fa-solid fa-trash-can"></i></span>
         </li>
     </transition-group>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   methods: {
-    removeTodo(todoItem, index){
-      this.$store.commit("removeOneItem", {todoItem, index});  // 인자값은 하나만 전달가능 -> 객체로 묶어라
-    }, 
-    toggleComplete(todoItem, index){
-      this.$store.commit("toggleOneItem",{todoItem, index});
-    }
+    ...mapMutations({
+      // 템플릿에서 인자 넘겼으면 여기서 굳이 인자 표기 안해도 자동으로 넘어감
+      // 대신, 템플릿에서 인자를 하나로 (여러개면 객체로 묶어서) 맞춰줘야함
+      removeTodo: 'removeOneItem',
+      toggleComplete: 'toggleOneItem'
+    })
+  },
+  computed: {
+    //  todoItems(){
+    //    return this.$store.getters.storedTodoItmes;
+    //  }
+    ...mapGetters(['storedTodoItmes']) //배열 리터럴 방식
+    // ...mapGetters({  // 객체 리터럴 방식 (얘는 템플릿에서 사용할 이름이랑 store에 정의되어있는 이름이랑 다를 때 사용)
+    //   todoItems: 'storedTodoItmes'
+    // });
   }
 }
 </script>
