@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <div v-for="item in fetchedAsk">{{ item.title }}</div>
-  </div>
+  <p v-for="item in fetchedAsk">
+    <a v-bind:href="item.url">
+      {{ item.title }}
+    </a>
+    <small>{{ item.time_ago }} by{{ item.user }}</small>
+  </p>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';  // 헬퍼함수
+import { mapGetters } from 'vuex';  // 헬퍼함수
 export default {
   computed:{
     // [템플릿에서 간편하게 state에 접근하기]
